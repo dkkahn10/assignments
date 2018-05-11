@@ -1,0 +1,42 @@
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <!-- CKEditor5 Integration -->
+    <script src="./ckeditor5/node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <style>
+        hr {margin-top: 100px;}
+    </style>
+</head>
+<body>
+    <!-- CKEditor5 Integration -->
+    <textarea name="ckeditor5" id="ckeditor5">
+        CKEditor5 Text!
+    </textarea>
+    <hr>
+    <pre id="replace"></pre>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#ckeditor5'), {
+                toolbar: {
+                    items: ['heading', '|', 'bold', 'italic', 'bulletedList'],
+                    heading: {
+                        options: [
+                            {modelElement: 'paragraph', title: "Paragraph", class: "ck-heading_paragraph"}
+                        ]
+                    }
+                }
+            })
+            .then(editor => {
+                editor.model.document.on('change', () => {
+                    replaceHTML(editor);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            
+        function replaceHTML(editor) {
+            var contents = editor.getData();
+            document.getElementById('replace').innerText = contents;
+        };
+    </script>
+</body>
